@@ -64,6 +64,7 @@ Currently in the **data discovery and architecture** phase.
 ├── CLAUDE.md               # Project guidelines for AI coding assistants
 ├── .gitignore
 ├── .env.example            # Copy to .env and fill in credentials
+├── docker-compose.yml      # Local MariaDB for data discovery
 ├── data/                   # Local datasets only — git-ignored, never pushed
 ├── docs/
 │   ├── architecture/       # Diagrams, data flow, stack
@@ -72,6 +73,7 @@ Currently in the **data discovery and architecture** phase.
 ├── ingestion/
 │   └── python/             # Extract-load scripts (MySQL → warehouse)
 ├── sql/
+│   ├── setup/              # Load customer dumps into local MariaDB
 │   ├── profiling/          # Source data exploration
 │   ├── validation/         # Reconciliation checks
 │   └── analysis/           # Business queries
