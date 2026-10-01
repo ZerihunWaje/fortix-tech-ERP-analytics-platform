@@ -1,6 +1,22 @@
-# Fortix Tech ERP Analytics Engineering Platform
+# Fortechx Analytics Platform
 
-Building a scalable analytics platform for multi-business ERP data, from cloud MySQL pipelines and dbt transformations to BI dashboards and AI analytics.
+An analytics engineering platform for **Fortechx Solutions**, an Ethiopian ERP startup serving multiple business customers. It transforms ERP operational data into reliable, analytics-ready datasets for BI and advanced analytics.
+
+## Main goals
+
+- Understand and profile ERP source data
+- Build reusable data ingestion pipelines
+- Create an analytical data model and implement it with dbt
+- Implement automated data quality checks
+- Build reusable business metrics for Power BI and Tableau
+- Design the platform to eventually support 100+ ERP customers
+- Explore AI-powered analytics once the core platform is reliable
+
+## Data flow
+
+```
+Source (cloud MySQL ERP) → Raw → Staging → Intermediate → Marts → BI / Analytics
+```
 
 ## Roadmap
 
