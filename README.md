@@ -64,6 +64,7 @@ Currently in the **data discovery and architecture** phase.
 ├── CLAUDE.md               # Project guidelines for AI coding assistants
 ├── .gitignore
 ├── .env.example            # Copy to .env and fill in credentials
+├── data/                   # Local datasets only — git-ignored, never pushed
 ├── docs/
 │   ├── architecture/       # Diagrams, data flow, stack
 │   ├── data_dictionary/    # Table and column definitions

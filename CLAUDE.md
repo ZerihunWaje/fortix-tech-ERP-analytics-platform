@@ -55,6 +55,7 @@ Source → Raw → Staging → Intermediate → Marts → BI / Analytics
 
 ## Repository layout
 
+- `data/` — local datasets only (raw / interim / processed); git-ignored, never committed or pushed
 - `docs/architecture/` — diagrams, data flow, tech stack
 - `docs/data_dictionary/` — table and column definitions
 - `docs/decisions/` — numbered architecture decision records (ADRs), e.g. `0001-<title>.md`
