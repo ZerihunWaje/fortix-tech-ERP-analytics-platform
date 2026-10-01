@@ -17,10 +17,27 @@ dbt/target/
 dbt/dbt_packages/
 dbt/logs/
 
-# Data extracts
+# Data — local only, never pushed to GitHub
+# Everything inside data/ is ignored except its README
+/data/*
+!/data/README.md
+
+# Data file types anywhere in the repo (safety net)
 *.csv
+*.tsv
 *.parquet
-data/
+*.xlsx
+*.xls
+*.json.gz
+*.sql.gz
+*.dump
+*.bak
+*.db
+*.sqlite
+*.duckdb
+*.duckdb.wal
+# Allow small, non-sensitive dbt seed files
+!dbt/seeds/*.csv
 
 # OS / editors
 .DS_Store
