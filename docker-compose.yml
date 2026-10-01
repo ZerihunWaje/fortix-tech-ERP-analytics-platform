@@ -13,6 +13,8 @@ services:
       - mariadb_data:/var/lib/mysql
       - ./data:/project_data:ro
       - ./sql/setup:/setup:ro
+      - ./sql:/sql:ro
+      - ./data/processed:/output
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s

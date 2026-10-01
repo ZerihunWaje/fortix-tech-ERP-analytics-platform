@@ -48,3 +48,17 @@ docker exec -it fortix-mariadb mariadb -uroot -p customer_b
 docker compose stop          :: stop, keep data
 docker compose down -v       :: remove container AND loaded databases
 ```
+
+## Run profiling queries
+
+Runs every file in `sql/profiling/` and saves each result as a TSV file in `data\processed\profiling\` (git-ignored; open in Excel or VS Code):
+
+```cmd
+docker exec fortix-mariadb bash /sql/setup/run_profiling.sh
+```
+
+Run a single file by its prefix:
+
+```cmd
+docker exec fortix-mariadb bash /sql/setup/run_profiling.sh 01_*
+```
