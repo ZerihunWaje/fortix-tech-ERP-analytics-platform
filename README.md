@@ -4,7 +4,7 @@ Building a scalable analytics platform for multi-business ERP data, from cloud M
 
 ## Overview
 
-This project is an end-to-end analytics engineering platform being developed for **Fortechx Solutions**, an Ethiopian ERP startup serving multiple business customers.
+This project is an end-to-end analytics engineering platform being developed for **Fortix tech Solutions**, an Ethiopian ERP startup serving multiple business customers.
 
 The platform aims to transform operational ERP data into reliable, analytics-ready datasets and reusable business intelligence.
 
