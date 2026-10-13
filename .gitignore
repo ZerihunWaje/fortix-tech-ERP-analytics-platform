@@ -44,3 +44,4 @@ dbt/logs/
 Thumbs.db
 .vscode/
 .idea/
+dbt/.user.yml

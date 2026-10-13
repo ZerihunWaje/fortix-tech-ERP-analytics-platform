@@ -1,0 +1,14 @@
+version: 2
+seeds:
+  - name: tenants
+    description: >
+      One row per ERP customer (tenant), anonymised as customer_a … customer_e.
+      reporting_currency fixes wrong currency settings in the source
+      (customer_a uses the code 'Birr', customer_c is set to USD and customer_e has an invalid code; all trade in Ethiopian Birr).
+    columns:
+      - name: tenant_id
+        tests: [unique, not_null]
+      - name: reporting_currency
+        tests:
+          - accepted_values:
+              values: ['ETB']

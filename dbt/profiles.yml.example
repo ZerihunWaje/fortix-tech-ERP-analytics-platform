@@ -1,0 +1,13 @@
+# Copy to dbt/profiles.yml (git-ignored). Values come from .env via scripts\dbt.cmd.
+fortix_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: "{{ env_var('WAREHOUSE_HOST', '127.0.0.1') }}"
+      port: "{{ env_var('WAREHOUSE_PORT', '5433') | int }}"
+      user: "{{ env_var('WAREHOUSE_USER', 'fortix') }}"
+      password: "{{ env_var('WAREHOUSE_PASSWORD') }}"
+      dbname: "{{ env_var('WAREHOUSE_DATABASE', 'fortix_warehouse') }}"
+      schema: analytics
+      threads: 4

@@ -1,0 +1,28 @@
+name: fortix_analytics
+version: "0.1.0"
+config-version: 2
+profile: fortix_analytics
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+analysis-paths: ["analyses"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  fortix_analytics:
+    staging:
+      +schema: staging
+      +materialized: view
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+    marts:
+      +schema: marts
+      +materialized: table
+
+seeds:
+  fortix_analytics:
+    +schema: reference

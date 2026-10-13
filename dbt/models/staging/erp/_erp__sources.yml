@@ -1,0 +1,25 @@
+version: 2
+
+sources:
+  - name: erp
+    description: >
+      ZemenStock ERP tables copied 1:1 from the five customer databases by
+      ingestion/python/load_raw.py. Every value is text; tenant_id says which customer a row belongs to.
+    schema: raw
+    loaded_at_field: "cast(_loaded_at as timestamptz)"
+    freshness:
+      warn_after: {count: 7, period: day}
+    tables:
+      - name: sales
+      - name: sale_details
+      - name: products
+      - name: product_warehouse
+      - name: categories
+      - name: warehouses
+      - name: clients
+      - name: settings
+      - name: currencies
+      - name: _load_log
+        description: One row per tenant and table per ingestion run.
+        freshness: null
+        loaded_at_field: null

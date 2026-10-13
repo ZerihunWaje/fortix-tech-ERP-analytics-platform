@@ -1,0 +1,6 @@
+tenant_id,tenant_label,business_type,reporting_currency
+customer_a,Customer A,Retail - electronics,ETB
+customer_b,Customer B,Retail - auto spare parts,ETB
+customer_c,Customer C,Wholesale - beverages,ETB
+customer_d,Customer D,Manufacturing - plastic packaging,ETB
+customer_e,Customer E,Distribution - food and beverage,ETB

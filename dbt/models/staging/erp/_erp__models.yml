@@ -1,0 +1,90 @@
+version: 2
+
+models:
+  - name: stg_erp__sales
+    description: "Sales invoices. Grain: one row per sale per tenant. Soft-deleted rows kept, flagged by is_deleted."
+    columns:
+      - name: sale_key
+        description: "tenant_id || '-' || source id; unique across all tenants."
+        tests: [unique, not_null]
+      - name: tenant_id
+        tests:
+          - not_null
+          - relationships: {to: ref('tenants'), field: tenant_id}
+      - name: sale_date
+        tests: [not_null]
+      - name: sale_status
+        tests:
+          - accepted_values:
+              values: ['completed', 'pending', 'ordered']
+              config: {severity: warn}
+      - name: payment_status
+        tests:
+          - accepted_values:
+              values: ['paid', 'partial', 'unpaid']
+              config: {severity: warn}
+      - name: grand_total
+        tests: [not_null]
+
+  - name: stg_erp__sale_details
+    description: "Sale lines. Grain: one row per product line on a sale per tenant."
+    columns:
+      - name: sale_line_key
+        tests: [unique, not_null]
+      - name: sale_key
+        tests:
+          - not_null
+          - relationships: {to: ref('stg_erp__sales'), field: sale_key}
+      - name: product_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_erp__products')
+              field: product_key
+              config: {severity: warn}
+
+  - name: stg_erp__products
+    description: "Product catalogue. Grain: one row per product per tenant."
+    columns:
+      - name: product_key
+        tests: [unique, not_null]
+      - name: product_name
+        tests: [not_null]
+
+  - name: stg_erp__product_warehouse
+    description: "Current stock on hand. Grain: one row per product (variant) per warehouse per tenant."
+    columns:
+      - name: product_warehouse_key
+        tests: [unique, not_null]
+      - name: product_key
+        tests: [not_null]
+      - name: warehouse_key
+        tests: [not_null]
+
+  - name: stg_erp__categories
+    description: "Product categories. Grain: one row per category per tenant."
+    columns:
+      - name: category_key
+        tests: [unique, not_null]
+
+  - name: stg_erp__warehouses
+    description: "Warehouses / stores. Contact details removed (ADR 0003)."
+    columns:
+      - name: warehouse_key
+        tests: [unique, not_null]
+
+  - name: stg_erp__clients
+    description: "Buyers. All personal data removed or hashed (ADR 0003)."
+    columns:
+      - name: client_key
+        tests: [unique, not_null]
+      - name: client_name_hash
+        description: "md5 of tenant + lower-cased name; for duplicate detection only."
+
+  - name: stg_erp__settings
+    description: "One row per tenant: source currency vs. reporting currency from the tenants seed."
+    columns:
+      - name: tenant_id
+        tests: [unique, not_null]
+      - name: has_currency_mismatch
+        description: "True when the ERP's configured currency code differs from the reporting currency."
