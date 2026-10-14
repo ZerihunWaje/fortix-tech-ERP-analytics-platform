@@ -1,0 +1,54 @@
+# Runs on every push / pull request: builds all dbt models and runs all tests
+# against a throw-away Postgres loaded with SYNTHETIC sample data (tests/fixtures/raw_sample.sql).
+# No real customer data is used or needed.
+name: dbt CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  dbt-build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: fortix
+          POSTGRES_PASSWORD: ci_password
+          POSTGRES_DB: fortix_warehouse
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U fortix -d fortix_warehouse"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+
+    env:
+      WAREHOUSE_HOST: localhost
+      WAREHOUSE_PORT: "5432"
+      WAREHOUSE_USER: fortix
+      WAREHOUSE_PASSWORD: ci_password
+      WAREHOUSE_DATABASE: fortix_warehouse
+      PGPASSWORD: ci_password
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dbt
+        run: pip install dbt-postgres
+
+      - name: Load synthetic raw data
+        run: psql -h localhost -U fortix -d fortix_warehouse -v ON_ERROR_STOP=1 -f tests/fixtures/raw_sample.sql
+
+      - name: dbt build
+        run: |
+          cp dbt/profiles.yml.example dbt/profiles.yml
+          dbt build --project-dir dbt --profiles-dir dbt
+
+      - name: dbt docs generate
+        run: dbt docs generate --project-dir dbt --profiles-dir dbt

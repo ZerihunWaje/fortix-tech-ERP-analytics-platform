@@ -45,3 +45,6 @@ Thumbs.db
 .vscode/
 .idea/
 dbt/.user.yml
+
+# Pipeline run logs
+/logs/
