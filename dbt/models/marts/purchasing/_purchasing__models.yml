@@ -10,19 +10,22 @@ models:
         tests: [unique, not_null]
       - name: tenant_id
         tests:
-          - relationships: {to: ref('dim_tenant'), field: tenant_id}
+          - relationships:
+              arguments: {to: ref('dim_tenant'), field: tenant_id}
       - name: purchase_date
         tests:
           - not_null
           - relationships:
-              to: ref('dim_date')
-              field: date_day
+              arguments:
+                to: ref('dim_date')
+                field: date_day
               config: {severity: warn}
       - name: supplier_key
         tests:
           - relationships:
-              to: ref('dim_supplier')
-              field: supplier_key
+              arguments:
+                to: ref('dim_supplier')
+                field: supplier_key
               config: {severity: warn}
 
   - name: fct_purchase_lines
@@ -32,10 +35,12 @@ models:
         tests: [unique, not_null]
       - name: purchase_key
         tests:
-          - relationships: {to: ref('fct_purchases'), field: purchase_key}
+          - relationships:
+              arguments: {to: ref('fct_purchases'), field: purchase_key}
       - name: product_key
         tests:
           - relationships:
-              to: ref('dim_product')
-              field: product_key
+              arguments:
+                to: ref('dim_product')
+                field: product_key
               config: {severity: warn}

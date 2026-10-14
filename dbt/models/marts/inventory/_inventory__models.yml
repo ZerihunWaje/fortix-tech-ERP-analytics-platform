@@ -10,9 +10,11 @@ models:
         tests: [unique, not_null]
       - name: product_key
         tests:
-          - relationships: {to: ref('dim_product'), field: product_key}
+          - relationships:
+              arguments: {to: ref('dim_product'), field: product_key}
       - name: warehouse_key
         tests:
-          - relationships: {to: ref('dim_warehouse'), field: warehouse_key}
+          - relationships:
+              arguments: {to: ref('dim_warehouse'), field: warehouse_key}
       - name: is_product_below_alert
         description: "Product's total stock across warehouses is at or below its stock alert level."

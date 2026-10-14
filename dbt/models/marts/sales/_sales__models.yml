@@ -10,22 +10,26 @@ models:
         tests: [unique, not_null]
       - name: tenant_id
         tests:
-          - relationships: {to: ref('dim_tenant'), field: tenant_id}
+          - relationships:
+              arguments: {to: ref('dim_tenant'), field: tenant_id}
       - name: sale_date
         tests:
           - not_null
-          - relationships: {to: ref('dim_date'), field: date_day}
+          - relationships:
+              arguments: {to: ref('dim_date'), field: date_day}
       - name: client_key
         tests:
           - relationships:
-              to: ref('dim_client')
-              field: client_key
+              arguments:
+                to: ref('dim_client')
+                field: client_key
               config: {severity: warn}
       - name: warehouse_key
         tests:
           - relationships:
-              to: ref('dim_warehouse')
-              field: warehouse_key
+              arguments:
+                to: ref('dim_warehouse')
+                field: warehouse_key
               config: {severity: warn}
       - name: header_adjustment
         description: "grand_total minus the sum of its lines: sale-level discount, tax or shipping."
@@ -41,14 +45,17 @@ models:
         tests: [unique, not_null]
       - name: sale_key
         tests:
-          - relationships: {to: ref('fct_sales'), field: sale_key}
+          - relationships:
+              arguments: {to: ref('fct_sales'), field: sale_key}
       - name: product_key
         tests:
           - not_null
           - relationships:
-              to: ref('dim_product')
-              field: product_key
+              arguments:
+                to: ref('dim_product')
+                field: product_key
               config: {severity: warn}
       - name: sale_date
         tests:
-          - relationships: {to: ref('dim_date'), field: date_day}
+          - relationships:
+              arguments: {to: ref('dim_date'), field: date_day}

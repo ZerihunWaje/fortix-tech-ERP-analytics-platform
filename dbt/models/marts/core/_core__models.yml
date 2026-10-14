@@ -22,7 +22,8 @@ models:
         tests: [unique, not_null]
       - name: tenant_id
         tests:
-          - relationships: {to: ref('dim_tenant'), field: tenant_id}
+          - relationships:
+              arguments: {to: ref('dim_tenant'), field: tenant_id}
       - name: current_unit_cost
         description: "Cost as configured today; the ERP keeps no cost history."
 

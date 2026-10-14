@@ -12,12 +12,14 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('dim_date')
-              field: date_day
+              arguments:
+                to: ref('dim_date')
+                field: date_day
               config: {severity: warn}
       - name: tenant_id
         tests:
-          - relationships: {to: ref('dim_tenant'), field: tenant_id}
+          - relationships:
+              arguments: {to: ref('dim_tenant'), field: tenant_id}
       - name: output_units
         description: >
           Total units of ALL finished products made in the batch (a batch can make 2–3 different products).
@@ -34,10 +36,12 @@ models:
         tests: [unique, not_null]
       - name: production_key
         tests:
-          - relationships: {to: ref('fct_production_batches'), field: production_key}
+          - relationships:
+              arguments: {to: ref('fct_production_batches'), field: production_key}
       - name: product_key
         tests:
           - relationships:
-              to: ref('dim_product')
-              field: product_key
+              arguments:
+                to: ref('dim_product')
+                field: product_key
               config: {severity: warn}

@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: dq_checks
+    description: >
+      Data-quality scorecard. Grain: one row per tenant per check. Status is OK / Warning / Problem /
+      Not applicable, based on issue_rate against warn_above and problem_above. Source for the Power BI
+      Data quality page.
+    columns:
+      - name: dq_check_key
+        tests: [unique, not_null]
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['OK', 'Warning', 'Problem', 'Not applicable']
+      - name: issue_rate
+        description: "issues / rows_checked (0–1)."
+
+  - name: dq_load_summary
+    description: "Latest ingestion run per tenant: tables loaded, tables the tenant does not have, rows loaded."
+    columns:
+      - name: tenant_id
+        tests: [unique, not_null]

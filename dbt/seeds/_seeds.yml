@@ -11,4 +11,5 @@ seeds:
       - name: reporting_currency
         tests:
           - accepted_values:
-              values: ['ETB']
+              arguments:
+                values: ['ETB']

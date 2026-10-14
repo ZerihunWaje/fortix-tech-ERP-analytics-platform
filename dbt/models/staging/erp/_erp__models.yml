@@ -10,18 +10,21 @@ models:
       - name: tenant_id
         tests:
           - not_null
-          - relationships: {to: ref('tenants'), field: tenant_id}
+          - relationships:
+              arguments: {to: ref('tenants'), field: tenant_id}
       - name: sale_date
         tests: [not_null]
       - name: sale_status
         tests:
           - accepted_values:
-              values: ['completed', 'pending', 'ordered']
+              arguments:
+                values: ['completed', 'pending', 'ordered']
               config: {severity: warn}
       - name: payment_status
         tests:
           - accepted_values:
-              values: ['paid', 'partial', 'unpaid']
+              arguments:
+                values: ['paid', 'partial', 'unpaid']
               config: {severity: warn}
       - name: grand_total
         tests: [not_null]
@@ -34,13 +37,15 @@ models:
       - name: sale_key
         tests:
           - not_null
-          - relationships: {to: ref('stg_erp__sales'), field: sale_key}
+          - relationships:
+              arguments: {to: ref('stg_erp__sales'), field: sale_key}
       - name: product_key
         tests:
           - not_null
           - relationships:
-              to: ref('stg_erp__products')
-              field: product_key
+              arguments:
+                to: ref('stg_erp__products')
+                field: product_key
               config: {severity: warn}
 
   - name: stg_erp__products
@@ -114,7 +119,8 @@ models:
         tests: [unique, not_null]
       - name: purchase_key
         tests:
-          - relationships: {to: ref('stg_erp__purchases'), field: purchase_key}
+          - relationships:
+              arguments: {to: ref('stg_erp__purchases'), field: purchase_key}
 
   - name: stg_erp__providers
     description: "Suppliers. Personal data removed (ADR 0003)."
