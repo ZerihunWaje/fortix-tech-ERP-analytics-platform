@@ -1,5 +1,7 @@
 # Fortix tech Analytics Platform
 
+[![dbt CI](https://github.com/ZerihunWaje/fortix-tech-ERP-analytics-platform/actions/workflows/dbt-ci.yml/badge.svg)](https://github.com/ZerihunWaje/fortix-tech-ERP-analytics-platform/actions/workflows/dbt-ci.yml)
+
 Building a scalable analytics platform for multi-business ERP data, from cloud MySQL pipelines and dbt transformations to BI dashboards and AI analytics.
 
 ## Overview
@@ -25,27 +27,48 @@ The platform aims to transform operational ERP data into reliable, analytics-rea
 
 Architecture documentation will be added to [`docs/architecture/`](docs/architecture/) as the platform develops.
 
-Planned data flow:
+Data flow:
 
 ```
-Source (cloud MySQL ERP) → Raw → Staging → Intermediate → Marts → BI / Analytics
+ERP dumps (MariaDB) → Python load → Postgres raw → dbt staging → dbt marts (star schema) → Power BI
 ```
+
+Model documentation: [`docs/data_dictionary/marts.md`](docs/data_dictionary/marts.md).
 
 ## Project status
 
-Currently in the **data discovery and architecture** phase.
-
 | Step | Area | Main folder | Status |
 |---|---|---|---|
-| 01 | Project Architecture | `docs/architecture/`, `docs/decisions/` | In progress |
-| 02 | Data Discovery | `sql/profiling/`, `docs/data_dictionary/` | In progress |
-| 03 | Data Modeling | `docs/architecture/`, `dbt/` | Not started |
-| 04 | dbt Development | `dbt/` | Not started |
-| 05 | Data Quality | `dbt/` tests, `sql/validation/`, `tests/` | Not started |
-| 06 | Pipeline / Automation | `ingestion/python/` | Not started |
-| 07 | BI & Analytics | `dashboards/`, `sql/analysis/` | Not started |
-| 08 | AI Analytics | to be added | Not started |
-| 09 | Documentation & Portfolio | `docs/`, this README | Not started |
+| 01 | Project setup & architecture decisions | `docs/decisions/` | Done |
+| 02 | Local source (MariaDB) + warehouse (Postgres) in Docker | `docker-compose.yml`, `sql/setup/` | Done |
+| 03 | Python ingestion MariaDB → Postgres `raw` | `ingestion/python/` | Done |
+| 04 | Personal-data removal in staging (ADR 0003) | `dbt/models/staging/` | Done |
+| 05 | dbt staging models | `dbt/models/staging/` | Done |
+| 06 | Star schema: sales, inventory, purchasing, production | `dbt/models/marts/` | Done |
+| 07 | Data-quality scorecard, dbt docs, data dictionary | `dbt/models/marts/quality/`, `docs/data_dictionary/` | Done |
+| 08 | One-command pipeline + GitHub Actions CI | `scripts/`, `.github/workflows/` | Done |
+| 09 | Power BI semantic model (measures, row-level security) | `dashboards/` | Next |
+| 10 | Power BI report pages | `dashboards/` | Planned |
+| 11 | Portfolio write-up | `README.md`, `docs/` | Planned |
+
+## How to run
+
+Prerequisites: Docker Desktop, Python 3.11+, the customer dumps in `data/raw/` (local only) and a filled-in `.env`.
+
+```cmd
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt dbt-postgres
+copy dbt\profiles.yml.example dbt\profiles.yml
+
+docker compose up -d --wait
+docker exec fortix-mariadb bash /setup/load_customers.sh   :: once, loads the dumps into MariaDB
+
+scripts\run_pipeline.cmd                                   :: ingestion -> dbt build -> dbt docs
+scripts\dbt.cmd docs serve --port 8081                     :: browse models, tests and lineage
+```
+
+Every push runs `dbt build` on GitHub Actions against synthetic sample data (`tests/fixtures/raw_sample.sql`).
 
 ## Technology
 
