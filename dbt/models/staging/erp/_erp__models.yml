@@ -100,3 +100,60 @@ models:
     columns:
       - name: unit_key
         tests: [unique, not_null]
+
+  - name: stg_erp__purchases
+    description: "Purchases (supplier invoices). Grain: one row per purchase per tenant."
+    columns:
+      - name: purchase_key
+        tests: [unique, not_null]
+
+  - name: stg_erp__purchase_details
+    description: "Purchase lines. Grain: one row per product line on a purchase."
+    columns:
+      - name: purchase_line_key
+        tests: [unique, not_null]
+      - name: purchase_key
+        tests:
+          - relationships: {to: ref('stg_erp__purchases'), field: purchase_key}
+
+  - name: stg_erp__providers
+    description: "Suppliers. Personal data removed (ADR 0003)."
+    columns:
+      - name: supplier_key
+        tests: [unique, not_null]
+
+  - name: stg_erp__productions
+    description: "Production batches. Grain: one row per batch per tenant."
+    columns:
+      - name: production_key
+        tests: [unique, not_null]
+
+  - name: stg_erp__production_outputs
+    description: "Finished products made per batch."
+    columns:
+      - name: production_output_key
+        tests: [unique, not_null]
+
+  - name: stg_erp__production_inputs
+    description: "Raw materials consumed per batch, with cost."
+    columns:
+      - name: production_input_key
+        tests: [unique, not_null]
+
+  - name: stg_erp__production_wastes
+    description: "Raw material wasted per batch."
+    columns:
+      - name: production_waste_key
+        tests: [unique, not_null]
+
+  - name: stg_erp__production_modules
+    description: "Production modules (recipes / lines)."
+    columns:
+      - name: production_module_key
+        tests: [unique, not_null]
+
+  - name: stg_erp__shifts
+    description: "Work shifts."
+    columns:
+      - name: shift_key
+        tests: [unique, not_null]

@@ -1,10 +1,18 @@
 -- grain: one row per calendar day
--- range: 1 Jan of the first year with a sale to 31 Dec of the year after the last sale
-with bounds as (
+-- range: 1 Jan of the first year with any activity to 31 Dec of the year after the last activity
+with activity as (
+    select sale_date as d from {{ ref('stg_erp__sales') }}
+    union all
+    select purchase_date from {{ ref('stg_erp__purchases') }}
+    union all
+    select production_date from {{ ref('stg_erp__productions') }}
+),
+
+bounds as (
     select
-        date_trunc('year', min(sale_date))::date                         as start_date,
-        (date_trunc('year', max(sale_date)) + interval '2 years' - interval '1 day')::date as end_date
-    from {{ ref('stg_erp__sales') }}
+        date_trunc('year', min(d))::date                                       as start_date,
+        (date_trunc('year', max(d)) + interval '2 years' - interval '1 day')::date as end_date
+    from activity
 ),
 
 days as (

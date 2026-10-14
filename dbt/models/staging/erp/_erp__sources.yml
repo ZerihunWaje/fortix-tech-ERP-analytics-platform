@@ -21,6 +21,15 @@ sources:
       - name: currencies
       - name: brands
       - name: units
+      - name: purchases
+      - name: purchase_details
+      - name: providers
+      - name: productions
+      - name: production_finished_products
+      - name: production_consumed_products
+      - name: production_wastes
+      - name: production_modules
+      - name: shifts
       - name: _load_log
         description: One row per tenant and table per ingestion run.
         freshness: null

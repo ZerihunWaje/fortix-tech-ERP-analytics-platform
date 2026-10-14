@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: dim_supplier
+    description: "One row per supplier per tenant. No personal data (ADR 0003)."
+    columns:
+      - name: supplier_key
+        tests: [unique, not_null]

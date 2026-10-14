@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: fct_purchases
+    description: >
+      Purchases from suppliers. Grain: one row per purchase per tenant. Soft-deleted purchases excluded.
+      Spend = sum(grand_total) where is_received.
+    columns:
+      - name: purchase_key
+        tests: [unique, not_null]
+      - name: tenant_id
+        tests:
+          - relationships: {to: ref('dim_tenant'), field: tenant_id}
+      - name: purchase_date
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_day
+              config: {severity: warn}
+      - name: supplier_key
+        tests:
+          - relationships:
+              to: ref('dim_supplier')
+              field: supplier_key
+              config: {severity: warn}
+
+  - name: fct_purchase_lines
+    description: "Purchase lines. Grain: one row per product line on a purchase per tenant."
+    columns:
+      - name: purchase_line_key
+        tests: [unique, not_null]
+      - name: purchase_key
+        tests:
+          - relationships: {to: ref('fct_purchases'), field: purchase_key}
+      - name: product_key
+        tests:
+          - relationships:
+              to: ref('dim_product')
+              field: product_key
+              config: {severity: warn}

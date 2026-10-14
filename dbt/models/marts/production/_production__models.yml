@@ -1,0 +1,35 @@
+version: 2
+
+models:
+  - name: fct_production_batches
+    description: >
+      Production batches (manufacturing customers). Grain: one row per batch per tenant.
+      material_cost comes from the ERP's consumed-materials records; waste_rate = waste units / material units.
+    columns:
+      - name: production_key
+        tests: [unique, not_null]
+      - name: production_date
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_day
+              config: {severity: warn}
+      - name: tenant_id
+        tests:
+          - relationships: {to: ref('dim_tenant'), field: tenant_id}
+
+  - name: fct_production_outputs
+    description: "Finished products made. Grain: one row per finished product per batch."
+    columns:
+      - name: production_output_key
+        tests: [unique, not_null]
+      - name: production_key
+        tests:
+          - relationships: {to: ref('fct_production_batches'), field: production_key}
+      - name: product_key
+        tests:
+          - relationships:
+              to: ref('dim_product')
+              field: product_key
+              config: {severity: warn}
