@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: dim_tenant
+    description: "One row per ERP customer (anonymised A–E) with reporting currency and currency-setting check."
+    columns:
+      - name: tenant_id
+        tests: [unique, not_null]
+
+  - name: dim_date
+    description: "Calendar. One row per day; includes an approximate Ethiopian fiscal year (starts 8 July)."
+    columns:
+      - name: date_day
+        tests: [unique, not_null]
+      - name: date_id
+        tests: [unique, not_null]
+
+  - name: dim_product
+    description: "One row per product per tenant, with category, brand and unit. Deleted products kept and flagged."
+    columns:
+      - name: product_key
+        tests: [unique, not_null]
+      - name: tenant_id
+        tests:
+          - relationships: {to: ref('dim_tenant'), field: tenant_id}
+      - name: current_unit_cost
+        description: "Cost as configured today; the ERP keeps no cost history."
+
+  - name: dim_warehouse
+    description: "One row per warehouse per tenant. Names and contacts removed (ADR 0003)."
+    columns:
+      - name: warehouse_key
+        tests: [unique, not_null]
+
+  - name: dim_client
+    description: "One row per client per tenant. No personal data (ADR 0003)."
+    columns:
+      - name: client_key
+        tests: [unique, not_null]

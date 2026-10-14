@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: fct_stock_snapshot
+    description: >
+      Stock on hand. Grain: one row per product (variant) per warehouse per tenant, as of the last ingestion
+      (snapshot_date). Deleted stock rows, products and warehouses excluded. Values use current cost and price.
+    columns:
+      - name: product_warehouse_key
+        tests: [unique, not_null]
+      - name: product_key
+        tests:
+          - relationships: {to: ref('dim_product'), field: product_key}
+      - name: warehouse_key
+        tests:
+          - relationships: {to: ref('dim_warehouse'), field: warehouse_key}
+      - name: is_product_below_alert
+        description: "Product's total stock across warehouses is at or below its stock alert level."

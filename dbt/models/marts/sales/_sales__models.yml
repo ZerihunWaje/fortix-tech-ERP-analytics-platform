@@ -1,0 +1,54 @@
+version: 2
+
+models:
+  - name: fct_sales
+    description: >
+      Sales invoices. Grain: one row per sale per tenant. Soft-deleted sales excluded.
+      Revenue = sum(grand_total) where is_completed.
+    columns:
+      - name: sale_key
+        tests: [unique, not_null]
+      - name: tenant_id
+        tests:
+          - relationships: {to: ref('dim_tenant'), field: tenant_id}
+      - name: sale_date
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_date'), field: date_day}
+      - name: client_key
+        tests:
+          - relationships:
+              to: ref('dim_client')
+              field: client_key
+              config: {severity: warn}
+      - name: warehouse_key
+        tests:
+          - relationships:
+              to: ref('dim_warehouse')
+              field: warehouse_key
+              config: {severity: warn}
+      - name: header_adjustment
+        description: "grand_total minus the sum of its lines: sale-level discount, tax or shipping."
+      - name: is_future_dated
+        description: "Sale date later than the day the sale was entered (created_at): a post-dated or mistyped date."
+
+  - name: fct_sales_lines
+    description: >
+      Sale lines. Grain: one row per product line on a sale per tenant. Lines of soft-deleted sales excluded.
+      est_cost and est_gross_margin use the product's CURRENT cost (no cost history in the ERP) — treat as estimates.
+    columns:
+      - name: sale_line_key
+        tests: [unique, not_null]
+      - name: sale_key
+        tests:
+          - relationships: {to: ref('fct_sales'), field: sale_key}
+      - name: product_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product')
+              field: product_key
+              config: {severity: warn}
+      - name: sale_date
+        tests:
+          - relationships: {to: ref('dim_date'), field: date_day}

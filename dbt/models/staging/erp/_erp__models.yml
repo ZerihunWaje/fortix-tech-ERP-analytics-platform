@@ -88,3 +88,15 @@ models:
         tests: [unique, not_null]
       - name: has_currency_mismatch
         description: "True when the ERP's configured currency code differs from the reporting currency."
+
+  - name: stg_erp__brands
+    description: "Product brands. Grain: one row per brand per tenant."
+    columns:
+      - name: brand_key
+        tests: [unique, not_null]
+
+  - name: stg_erp__units
+    description: "Units of measure and their conversion to a base unit."
+    columns:
+      - name: unit_key
+        tests: [unique, not_null]

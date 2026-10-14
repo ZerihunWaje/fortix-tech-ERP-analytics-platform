@@ -19,6 +19,8 @@ sources:
       - name: clients
       - name: settings
       - name: currencies
+      - name: brands
+      - name: units
       - name: _load_log
         description: One row per tenant and table per ingestion run.
         freshness: null
