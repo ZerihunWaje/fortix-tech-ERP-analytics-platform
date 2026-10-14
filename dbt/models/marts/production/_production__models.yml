@@ -18,6 +18,14 @@ models:
       - name: tenant_id
         tests:
           - relationships: {to: ref('dim_tenant'), field: tenant_id}
+      - name: output_units
+        description: >
+          Total units of ALL finished products made in the batch (a batch can make 2–3 different products).
+          The batch header quantity in the ERP covers only the main product, so it understates output.
+      - name: material_cost_per_unit
+        description: >
+          BLENDED average: batch material cost / all units made. The ERP records material cost per batch,
+          not per product, so this is not a per-product cost (a 1L bottle and an 80ml bottle count the same).
 
   - name: fct_production_outputs
     description: "Finished products made. Grain: one row per finished product per batch."
