@@ -48,3 +48,4 @@ dbt/.user.yml
 
 # Pipeline run logs
 /logs/
+*.pbix
