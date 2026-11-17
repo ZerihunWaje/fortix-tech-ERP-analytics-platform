@@ -47,9 +47,9 @@ Model documentation: [`docs/data_dictionary/marts.md`](docs/data_dictionary/mart
 | 06 | Star schema: sales, inventory, purchasing, production | `dbt/models/marts/` | Done |
 | 07 | Data-quality scorecard, dbt docs, data dictionary | `dbt/models/marts/quality/`, `docs/data_dictionary/` | Done |
 | 08 | One-command pipeline + GitHub Actions CI | `scripts/`, `.github/workflows/` | Done |
-| 09 | Power BI semantic model (measures, row-level security) | `dashboards/` | Next |
-| 10 | Power BI report pages | `dashboards/` | Planned |
-| 11 | Portfolio write-up | `README.md`, `docs/` | Planned |
+| 09 | Power BI semantic model (measures, row-level security) | `dashboards/` | Done |
+| 10 | Power BI report pages | `dashboards/` | Done |
+| 11 | AI|LLM Integration | RAG | Under Progress |
 
 ## How to run
 
