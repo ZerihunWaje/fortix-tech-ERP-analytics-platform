@@ -49,7 +49,7 @@ Model documentation: [`docs/data_dictionary/marts.md`](docs/data_dictionary/mart
 | 08 | One-command pipeline + GitHub Actions CI | `scripts/`, `.github/workflows/` | Done |
 | 09 | Power BI semantic model (measures, row-level security) | `dashboards/` | Done |
 | 10 | Power BI report pages | `dashboards/` | Done |
-| 11 | AI|LLM Integration | RAG | Under Progress |
+| 11 | AI|LLM Integration/RAG | Under Progress |
 
 ## How to run
 
