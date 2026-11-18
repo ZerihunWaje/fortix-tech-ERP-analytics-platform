@@ -2,7 +2,7 @@
 
 [![dbt CI](https://github.com/ZerihunWaje/fortix-tech-ERP-analytics-platform/actions/workflows/dbt-ci.yml/badge.svg)](https://github.com/ZerihunWaje/fortix-tech-ERP-analytics-platform/actions/workflows/dbt-ci.yml)
 
-Building a scalable analytics platform for multi-business ERP data, from cloud MySQL pipelines and dbt transformations to BI dashboards and AI analytics.
+Building a scalable analytics platform for multi-business ERP data, from cloud MariaDB pipelines and dbt transformations to BI dashboards and AI analytics.
 
 ## Overview
 
