@@ -72,7 +72,7 @@ Every push runs `dbt build` on GitHub Actions against synthetic sample data (`te
 
 ## Technology
 
-- MySQL
+- MariaDB
 - SQL
 - Python
 - dbt
